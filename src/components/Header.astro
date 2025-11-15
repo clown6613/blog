@@ -5,12 +5,14 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <header class="bg-gradient-to-r from-primary to-primary-light dark:from-primary-dark dark:to-primary shadow-lg border-b-4 border-primary-dark dark:border-primary-light">
-  <div class="container mx-auto px-4 py-4 max-w-4xl">
+  <div class="container mx-auto px-4 py-3 md:py-4 max-w-4xl">
     <div class="flex items-center justify-between">
-      <a href={`${base}/`} class="text-2xl font-bold text-white hover:text-gray-100 transition-colors">
+      <a href={`${base}/`} class="text-xl md:text-2xl font-bold text-white hover:text-gray-100 transition-colors">
         📝 ぴえろぐ
       </a>
-      <div class="flex items-center gap-6">
+
+      <!-- デスクトップナビゲーション -->
+      <div class="hidden md:flex items-center gap-6">
         <nav class="flex gap-6">
           <a href={`${base}/`} class="text-white/90 hover:text-white font-medium transition-colors">
             ホーム
@@ -24,6 +26,47 @@ const base = import.meta.env.BASE_URL;
         </nav>
         <ThemeToggle />
       </div>
+
+      <!-- モバイルナビゲーション -->
+      <div class="flex md:hidden items-center gap-3">
+        <ThemeToggle />
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+          aria-label="メニュー"
+        >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
     </div>
+
+    <!-- モバイルメニュー（展開式） -->
+    <nav id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
+      <div class="flex flex-col gap-3">
+        <a href={`${base}/`} class="text-white/90 hover:text-white font-medium transition-colors py-2">
+          ホーム
+        </a>
+        <a href={`${base}/category/tech`} class="text-white/90 hover:text-white font-medium transition-colors py-2">
+          💻 Tech
+        </a>
+        <a href={`${base}/category/hobby`} class="text-white/90 hover:text-white font-medium transition-colors py-2">
+          🌿 Life
+        </a>
+      </div>
+    </nav>
   </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+
+    toggle?.addEventListener('click', () => {
+      menu?.classList.toggle('hidden');
+    });
+  });
+</script>

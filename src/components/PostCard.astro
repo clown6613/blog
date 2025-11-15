@@ -16,17 +16,17 @@ const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: j
 const readingTime = calculateReadingTime(post.body);
 ---
 
-<article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl hover:border-primary dark:hover:border-primary-light transition-all p-6 border-2 border-gray-200 dark:border-slate-700">
-  <div class="flex items-center gap-2 mb-3">
-    <span class="text-2xl px-2 py-1 bg-primary/10 rounded">{category.icon}</span>
-    <span class="text-sm font-semibold text-primary">{category.name}</span>
-    <span class="text-sm text-gray-400 dark:text-gray-500">•</span>
-    <time class="text-sm text-gray-600 dark:text-gray-400">{formattedDate}</time>
-    <span class="text-sm text-gray-400 dark:text-gray-500">•</span>
-    <span class="text-sm text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
+<article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl hover:border-primary dark:hover:border-primary-light transition-all p-4 md:p-6 border-2 border-gray-200 dark:border-slate-700">
+  <div class="flex flex-wrap items-center gap-2 mb-3 text-xs md:text-sm">
+    <span class="text-xl md:text-2xl px-2 py-1 bg-primary/10 rounded">{category.icon}</span>
+    <span class="font-semibold text-primary">{category.name}</span>
+    <span class="text-gray-400 dark:text-gray-500">•</span>
+    <time class="text-gray-600 dark:text-gray-400">{formattedDate}</time>
+    <span class="text-gray-400 dark:text-gray-500">•</span>
+    <span class="text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
   </div>
 
-  <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-primary-light hover:text-primary dark:hover:text-white transition-colors">
+  <h2 class="text-xl md:text-2xl font-bold mb-3 text-gray-900 dark:text-primary-light hover:text-primary dark:hover:text-white transition-colors">
     <a href={`${base}/posts/${post.id}`}>
       {post.data.title}
     </a>

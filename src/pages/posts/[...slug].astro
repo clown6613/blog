@@ -52,17 +52,17 @@ const base = import.meta.env.BASE_URL;
   <Header slot="header" />
 
   <!-- パンくずナビゲーション -->
-  <nav class="text-sm mb-6">
-    <ol class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+  <nav class="text-xs md:text-sm mb-4 md:mb-6 overflow-x-auto">
+    <ol class="flex items-center gap-2 text-gray-600 dark:text-gray-400 whitespace-nowrap">
       <li><a href={`${base}/`} class="hover:text-primary">ホーム</a></li>
       <li>›</li>
       <li><a href={`${base}/category/${post.data.category}`} class="hover:text-primary">{CATEGORIES[post.data.category].name}</a></li>
       <li>›</li>
-      <li class="text-gray-900 dark:text-white font-medium truncate">{post.data.title}</li>
+      <li class="text-gray-900 dark:text-white font-medium truncate max-w-[200px] md:max-w-none">{post.data.title}</li>
     </ol>
   </nav>
 
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
     <!-- 目次 -->
     <aside class="lg:col-span-1 order-2 lg:order-1">
       <TableOfContents headings={headings} />
@@ -75,34 +75,34 @@ const base = import.meta.env.BASE_URL;
       <div class="flex items-center gap-3 mb-4">
         <a
           href={`${base}/category/${post.data.category}`}
-          class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          class="inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm md:text-base"
         >
-          <span class="text-xl">{category.icon}</span>
+          <span class="text-lg md:text-xl">{category.icon}</span>
           <span class="font-medium text-gray-900 dark:text-white">{category.name}</span>
         </a>
-        <time class="text-gray-600 dark:text-gray-400" data-pagefind-meta="date">
+        <time class="text-gray-600 dark:text-gray-400 text-xs md:text-sm" data-pagefind-meta="date">
           {formattedDate}
         </time>
-        <span class="text-gray-400 dark:text-gray-500">•</span>
-        <span class="text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
+        <span class="text-gray-400 dark:text-gray-500 hidden sm:inline">•</span>
+        <span class="text-gray-600 dark:text-gray-400 text-xs md:text-sm hidden sm:inline">📖 約{readingTime}分</span>
       </div>
 
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-primary-light mb-4" data-pagefind-meta="title">
+      <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-primary-light mb-3 md:mb-4 leading-tight" data-pagefind-meta="title">
         {post.data.title}
       </h1>
 
       {post.data.description && (
-        <p class="text-xl text-gray-600 dark:text-gray-400">
+        <p class="text-base md:text-xl text-gray-600 dark:text-gray-400">
           {post.data.description}
         </p>
       )}
 
       {post.data.tags && post.data.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-6" data-pagefind-meta="tags">
+        <div class="flex flex-wrap gap-2 mt-4 md:mt-6" data-pagefind-meta="tags">
           {post.data.tags.map(tag => (
             <a
               href={`${base}/tags/${encodeURIComponent(tag)}`}
-              class="px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 text-sm rounded-full transition-colors"
+              class="px-2 md:px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 text-xs md:text-sm rounded-full transition-colors"
             >
               #{tag}
             </a>
