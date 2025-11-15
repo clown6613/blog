@@ -4,7 +4,7 @@ import ThemeToggle from './ThemeToggle.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<header class="bg-gradient-to-r from-primary to-primary-light shadow-lg border-b-4 border-primary-dark">
+<header class="bg-gradient-to-r from-primary to-primary-light dark:from-primary-dark dark:to-primary shadow-lg border-b-4 border-primary-dark dark:border-primary-light">
   <div class="container mx-auto px-4 py-4 max-w-4xl">
     <div class="flex items-center justify-between">
       <a href={`${base}/`} class="text-2xl font-bold text-white hover:text-gray-100 transition-colors">

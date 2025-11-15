@@ -87,7 +87,7 @@ const base = import.meta.env.BASE_URL;
         <span class="text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
       </div>
 
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4" data-pagefind-meta="title">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-primary-light mb-4" data-pagefind-meta="title">
         {post.data.title}
       </h1>
 
@@ -157,27 +157,27 @@ const base = import.meta.env.BASE_URL;
 <style is:global>
   /* Markdownコンテンツのスタイリング */
   .prose {
-    @apply text-gray-800 dark:text-gray-200;
+    @apply text-gray-700 dark:text-gray-400;
   }
 
   .prose h1, .prose h2, .prose h3, .prose h4 {
-    @apply text-gray-900 dark:text-white font-bold;
+    @apply text-gray-900 dark:text-gray-200 font-bold;
   }
 
   .prose a {
-    @apply text-primary hover:underline;
+    @apply text-primary dark:text-primary-light hover:underline;
   }
 
   .prose code {
-    @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+    @apply bg-gray-100 dark:bg-slate-700 px-1 py-0.5 rounded text-sm text-primary dark:text-primary-light;
   }
 
   .prose pre {
-    @apply bg-gray-900 dark:bg-black rounded-lg p-4 overflow-x-auto;
+    @apply bg-gray-900 dark:bg-slate-950 rounded-lg p-4 overflow-x-auto border border-gray-700 dark:border-primary-dark;
   }
 
   .prose pre code {
-    @apply bg-transparent p-0;
+    @apply bg-transparent p-0 text-gray-100;
   }
 
   .prose ul, .prose ol {
@@ -189,10 +189,14 @@ const base = import.meta.env.BASE_URL;
   }
 
   .prose blockquote {
-    @apply border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-700 dark:text-gray-400;
+    @apply border-l-4 border-primary dark:border-primary-light pl-4 italic text-gray-700 dark:text-gray-400 bg-gray-50 dark:bg-slate-800 py-2;
   }
 
   .prose img {
     @apply rounded-lg shadow-md;
+  }
+
+  .prose strong {
+    @apply text-gray-900 dark:text-gray-100 font-bold;
   }
 </style>

@@ -17,13 +17,12 @@
 </button>
 
 <script is:inline>
+  // ユーザーの選択を優先、なければデフォルトはライトモード
   const theme = (() => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme');
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
+    // デフォルトはライトモード（システム設定を無視）
     return 'light';
   })();
 
@@ -48,10 +47,13 @@
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
     const themeToggleBtn = document.getElementById('theme-toggle');
 
+    // ダークモードの時は太陽アイコン、ライトモードの時は月アイコンを表示
     if (document.documentElement.classList.contains('dark')) {
+      themeToggleDarkIcon?.classList.add('hidden');
       themeToggleLightIcon?.classList.remove('hidden');
     } else {
       themeToggleDarkIcon?.classList.remove('hidden');
+      themeToggleLightIcon?.classList.add('hidden');
     }
 
     themeToggleBtn?.addEventListener('click', () => {

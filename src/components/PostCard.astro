@@ -16,7 +16,7 @@ const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: j
 const readingTime = calculateReadingTime(post.body);
 ---
 
-<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl hover:border-primary transition-all p-6 border-2 border-gray-200 dark:border-gray-700">
+<article class="bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl hover:border-primary dark:hover:border-primary-light transition-all p-6 border-2 border-gray-200 dark:border-slate-700">
   <div class="flex items-center gap-2 mb-3">
     <span class="text-2xl px-2 py-1 bg-primary/10 rounded">{category.icon}</span>
     <span class="text-sm font-semibold text-primary">{category.name}</span>
@@ -26,7 +26,7 @@ const readingTime = calculateReadingTime(post.body);
     <span class="text-sm text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
   </div>
 
-  <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white hover:text-primary transition-colors">
+  <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-primary-light hover:text-primary dark:hover:text-white transition-colors">
     <a href={`${base}/posts/${post.id}`}>
       {post.data.title}
     </a>
