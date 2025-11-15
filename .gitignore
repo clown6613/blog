@@ -26,3 +26,6 @@ pnpm-debug.log*
 #CLAUDE
 CLAUDE.md
 .claude/settings.local.json
+
+# Drafts
+drafts/

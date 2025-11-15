@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="About - ぴえろぐ" description="ぴえについて">
+  <Header slot="header" />
+
+  <article class="prose prose-lg dark:prose-invert mx-auto">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-primary-light mb-6">
+      About
+    </h1>
+
+    <div class="flex items-center gap-4 mb-8 not-prose">
+      <div class="w-24 h-24 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center text-4xl">
+        👤
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">ぴえ</h2>
+        <p class="text-gray-600 dark:text-gray-400">Tech & Life Blogger</p>
+      </div>
+    </div>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">👋 はじめまして</h2>
+      <p class="text-gray-700 dark:text-gray-400">
+        ぴえです。このブログでは、技術的な内容と日常の出来事について書いています。
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">💻 Tech</h2>
+      <p class="text-gray-700 dark:text-gray-400">
+        プログラミング、Web開発、ツールの使い方などについて学んだことを共有します。
+      </p>
+      <ul class="text-gray-700 dark:text-gray-400">
+        <li>Web開発（TypeScript、Astro、Tailwind CSS）</li>
+        <li>プログラミング Tips</li>
+        <li>開発ツール・環境構築</li>
+      </ul>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">🌿 Life</h2>
+      <p class="text-gray-700 dark:text-gray-400">
+        日常の趣味や興味のあることについても書いています。
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">🔗 Links</h2>
+      <ul class="text-gray-700 dark:text-gray-400">
+        <li><a href="https://github.com/clown6613" class="text-primary dark:text-primary-light hover:underline">GitHub</a></li>
+        <li><a href={`${base}/rss.xml`} class="text-primary dark:text-primary-light hover:underline">RSS Feed</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200 mb-4">📬 Contact</h2>
+      <p class="text-gray-700 dark:text-gray-400">
+        ブログへのフィードバックや質問は、<a href="https://github.com/clown6613/blog/issues" class="text-primary dark:text-primary-light hover:underline">GitHub Issues</a>からお願いします。
+      </p>
+    </section>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>

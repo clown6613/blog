@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL;
+
+// 公開記事を取得
+const posts = (await getCollection('posts', ({ data }) => data.published))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 年・月でグループ化
+const archive = posts.reduce((acc, post) => {
+  const year = post.data.pubDate.getFullYear();
+  const month = post.data.pubDate.getMonth() + 1;
+  const key = `${year}-${String(month).padStart(2, '0')}`;
+
+  if (!acc[key]) {
+    acc[key] = {
+      year,
+      month,
+      posts: []
+    };
+  }
+  acc[key].posts.push(post);
+  return acc;
+}, {} as Record<string, { year: number; month: number; posts: typeof posts }>);
+
+const archiveEntries = Object.entries(archive).sort((a, b) => b[0].localeCompare(a[0]));
+---
+
+<BaseLayout title="アーカイブ - ぴえろぐ">
+  <Header slot="header" />
+
+  <div>
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-primary-light mb-8">
+      📚 アーカイブ
+    </h1>
+
+    <p class="text-gray-600 dark:text-gray-400 mb-8">
+      全{posts.length}件の記事
+    </p>
+
+    <div class="space-y-12">
+      {archiveEntries.map(([key, { year, month, posts: monthPosts }]) => (
+        <section>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 pb-2 border-b-2 border-primary">
+            {year}年{month}月 ({monthPosts.length}件)
+          </h2>
+          <ul class="space-y-3">
+            {monthPosts.map(post => (
+              <li class="flex items-start gap-4 group">
+                <time class="text-sm text-gray-500 dark:text-gray-500 min-w-[80px] pt-1">
+                  {format(post.data.pubDate, 'MM/dd', { locale: ja })}
+                </time>
+                <div class="flex-1">
+                  <a
+                    href={`${base}/posts/${post.id}`}
+                    class="text-gray-900 dark:text-gray-200 hover:text-primary dark:hover:text-primary-light font-medium transition-colors"
+                  >
+                    {post.data.title}
+                  </a>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded">
+                      {post.data.category === 'tech' ? 'Tech' : 'Life'}
+                    </span>
+                    {post.data.tags?.slice(0, 3).map(tag => (
+                      <span class="text-xs text-gray-500 dark:text-gray-500">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+// コードブロックにコピーボタンを追加
+---
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const codeBlocks = document.querySelectorAll('pre');
+
+    codeBlocks.forEach((block) => {
+      // ラッパーを作成
+      const wrapper = document.createElement('div');
+      wrapper.className = 'relative group';
+
+      // コピーボタンを作成
+      const button = document.createElement('button');
+      button.className = 'absolute top-2 right-2 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity';
+      button.textContent = 'Copy';
+
+      // コピー機能
+      button.addEventListener('click', async () => {
+        const code = block.querySelector('code');
+        if (code) {
+          await navigator.clipboard.writeText(code.textContent || '');
+          button.textContent = 'Copied!';
+          button.className = button.className.replace('bg-gray-700', 'bg-primary');
+
+          setTimeout(() => {
+            button.textContent = 'Copy';
+            button.className = button.className.replace('bg-primary', 'bg-gray-700');
+          }, 2000);
+        }
+      });
+
+      // DOMを再構築
+      block.parentNode?.insertBefore(wrapper, block);
+      wrapper.appendChild(block);
+      wrapper.appendChild(button);
+    });
+  });
+</script>
