@@ -1,11 +1,14 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 import { CATEGORIES } from '../../constants/categories';
+import { calculateReadingTime } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('posts', ({ data }) => data.published);
@@ -32,13 +35,20 @@ if (!post.data.published) {
   return Astro.redirect('/404');
 }
 
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 const category = CATEGORIES[post.data.category];
 const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: ja });
-const { base } = import.meta.env;
+const readingTime = calculateReadingTime(post.body);
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  type="article"
+  publishedTime={post.data.pubDate}
+>
   <Header slot="header" />
 
   <!-- パンくずナビゲーション -->
@@ -52,7 +62,14 @@ const { base } = import.meta.env;
     </ol>
   </nav>
 
-  <article class="prose prose-lg dark:prose-invert max-w-none" data-pagefind-body>
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- 目次 -->
+    <aside class="lg:col-span-1 order-2 lg:order-1">
+      <TableOfContents headings={headings} />
+    </aside>
+
+    <!-- 記事本文 -->
+    <article class="lg:col-span-3 order-1 lg:order-2 prose prose-lg dark:prose-invert max-w-none" data-pagefind-body>
     <!-- 記事メタ情報 -->
     <div class="not-prose mb-8">
       <div class="flex items-center gap-3 mb-4">
@@ -66,6 +83,8 @@ const { base } = import.meta.env;
         <time class="text-gray-600 dark:text-gray-400" data-pagefind-meta="date">
           {formattedDate}
         </time>
+        <span class="text-gray-400 dark:text-gray-500">•</span>
+        <span class="text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
       </div>
 
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4" data-pagefind-meta="title">
@@ -94,11 +113,15 @@ const { base } = import.meta.env;
 
     <hr class="my-8 border-gray-200 dark:border-gray-700" />
 
-    <!-- 記事本文 -->
-    <div class="markdown-content">
-      <Content />
-    </div>
-  </article>
+      <!-- 記事本文 -->
+      <div class="markdown-content">
+        <Content />
+      </div>
+    </article>
+  </div>
+
+  <!-- 関連記事 -->
+  <RelatedPosts currentPost={post} />
 
   <!-- 前の記事・次の記事 -->
   <nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">

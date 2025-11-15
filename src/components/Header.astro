@@ -1,24 +1,29 @@
 ---
-const { base } = import.meta.env;
+import ThemeToggle from './ThemeToggle.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+<header class="bg-gradient-to-r from-primary to-primary-light shadow-lg border-b-4 border-primary-dark">
   <div class="container mx-auto px-4 py-4 max-w-4xl">
     <div class="flex items-center justify-between">
-      <a href={`${base}/`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-primary transition-colors">
-        📝 My Blog
+      <a href={`${base}/`} class="text-2xl font-bold text-white hover:text-gray-100 transition-colors">
+        📝 ぴえろぐ
       </a>
-      <nav class="flex gap-6">
-        <a href={`${base}/`} class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-          ホーム
-        </a>
-        <a href={`${base}/category/tech`} class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-          💻 技術
-        </a>
-        <a href={`${base}/category/hobby`} class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-          🎨 趣味
-        </a>
-      </nav>
+      <div class="flex items-center gap-6">
+        <nav class="flex gap-6">
+          <a href={`${base}/`} class="text-white/90 hover:text-white font-medium transition-colors">
+            ホーム
+          </a>
+          <a href={`${base}/category/tech`} class="text-white/90 hover:text-white font-medium transition-colors">
+            💻 Tech
+          </a>
+          <a href={`${base}/category/hobby`} class="text-white/90 hover:text-white font-medium transition-colors">
+            🌿 Life
+          </a>
+        </nav>
+        <ThemeToggle />
+      </div>
     </div>
   </div>
 </header>

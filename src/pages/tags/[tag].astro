@@ -28,10 +28,10 @@ const posts = (await getCollection('posts', ({ data }) => {
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const { base } = import.meta.env;
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={`#${tag} - My Blog`}>
+<BaseLayout title={`#${tag} - ぴえろぐ`}>
   <Header slot="header" />
 
   <div class="space-y-8">

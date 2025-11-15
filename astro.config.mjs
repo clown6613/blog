@@ -1,10 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [tailwind(), sitemap()],
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
@@ -12,6 +13,6 @@ export default defineConfig({
     }
   },
   // GitHub Pages設定
-  site: 'https://s23410.github.io',
+  site: 'https://clown6613.github.io',
   base: '/blog',
 });

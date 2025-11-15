@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PostCard from '../components/PostCard.astro';
 import Search from '../components/Search.astro';
+import SortToggle from '../components/SortToggle.astro';
 
 // 公開記事のみ取得して日付でソート
 const posts = (await getCollection('posts', ({ data }) => {
@@ -13,19 +14,19 @@ const posts = (await getCollection('posts', ({ data }) => {
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const { base } = import.meta.env;
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="My Blog - ホーム">
+<BaseLayout title="ぴえろぐ - ホーム">
   <Header slot="header" />
 
   <div class="space-y-8">
     <div class="text-center mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        技術と趣味のブログ
+      <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent mb-4">
+        ぴえろぐ
       </h1>
       <p class="text-lg text-gray-600 dark:text-gray-400">
-        プログラミング、開発、趣味について書いています
+        Tech と Life について、ぴえが綴る日々の記録
       </p>
     </div>
 
@@ -36,17 +37,17 @@ const { base } = import.meta.env;
     <div class="flex justify-center gap-4 mb-8">
       <a
         href={`${base}/category/tech`}
-        class="px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary hover:text-primary transition-all font-medium flex items-center gap-2"
+        class="px-6 py-3 bg-primary/10 border-2 border-primary hover:bg-primary hover:text-white transition-all font-medium flex items-center gap-2 rounded-lg text-primary"
       >
         <span>💻</span>
-        <span>技術</span>
+        <span>Tech</span>
       </a>
       <a
         href={`${base}/category/hobby`}
-        class="px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary hover:text-primary transition-all font-medium flex items-center gap-2"
+        class="px-6 py-3 bg-secondary/10 border-2 border-secondary hover:bg-secondary hover:text-white transition-all font-medium flex items-center gap-2 rounded-lg text-secondary"
       >
-        <span>🎨</span>
-        <span>趣味</span>
+        <span>🌿</span>
+        <span>Life</span>
       </a>
     </div>
 
@@ -57,11 +58,16 @@ const { base } = import.meta.env;
         </p>
       </div>
     ) : (
-      <div class="grid gap-6 md:gap-8">
-        {posts.map(post => (
-          <PostCard post={post} />
-        ))}
-      </div>
+      <>
+        <SortToggle />
+        <div id="posts-container" class="grid gap-6 md:gap-8">
+          {posts.map(post => (
+            <div data-date={post.data.pubDate.toISOString()}>
+              <PostCard post={post} />
+            </div>
+          ))}
+        </div>
+      </>
     )}
   </div>
 

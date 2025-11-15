@@ -10,14 +10,14 @@ export interface Category {
 export const CATEGORIES: Record<CategoryId, Category> = {
   tech: {
     id: 'tech',
-    name: '技術',
+    name: 'Tech',
     description: 'プログラミング、開発、技術に関する記事',
     icon: '💻'
   },
   hobby: {
     id: 'hobby',
-    name: '趣味',
-    description: '趣味、日常、その他の記事',
-    icon: '🎨'
+    name: 'Life',
+    description: '日常、趣味、その他の記事',
+    icon: '🌿'
   }
 };

@@ -1,0 +1,37 @@
+---
+// 記事並び替えコンポーネント（クライアントサイド）
+---
+
+<div class="flex items-center gap-2 mb-6">
+  <span class="text-sm text-gray-600 dark:text-gray-400">並び順:</span>
+  <select
+    id="sort-select"
+    class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary"
+  >
+    <option value="date-desc">新しい順</option>
+    <option value="date-asc">古い順</option>
+  </select>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+    const postsContainer = document.getElementById('posts-container');
+
+    if (!sortSelect || !postsContainer) return;
+
+    sortSelect.addEventListener('change', (e) => {
+      const value = (e.target as HTMLSelectElement).value;
+      const posts = Array.from(postsContainer.children);
+
+      posts.sort((a, b) => {
+        const dateA = new Date(a.getAttribute('data-date') || '').valueOf();
+        const dateB = new Date(b.getAttribute('data-date') || '').valueOf();
+
+        return value === 'date-desc' ? dateB - dateA : dateA - dateB;
+      });
+
+      posts.forEach(post => postsContainer.appendChild(post));
+    });
+  });
+</script>

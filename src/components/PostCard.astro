@@ -2,6 +2,7 @@
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { CATEGORIES } from '../constants/categories';
+import { calculateReadingTime } from '../utils/readingTime';
 import type { BlogPost } from '../types';
 
 interface Props {
@@ -9,17 +10,20 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { base } = import.meta.env;
+const base = import.meta.env.BASE_URL;
 const category = CATEGORIES[post.data.category];
 const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: ja });
+const readingTime = calculateReadingTime(post.body);
 ---
 
-<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700">
+<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl hover:border-primary transition-all p-6 border-2 border-gray-200 dark:border-gray-700">
   <div class="flex items-center gap-2 mb-3">
-    <span class="text-2xl">{category.icon}</span>
-    <span class="text-sm text-gray-600 dark:text-gray-400">{category.name}</span>
+    <span class="text-2xl px-2 py-1 bg-primary/10 rounded">{category.icon}</span>
+    <span class="text-sm font-semibold text-primary">{category.name}</span>
     <span class="text-sm text-gray-400 dark:text-gray-500">•</span>
     <time class="text-sm text-gray-600 dark:text-gray-400">{formattedDate}</time>
+    <span class="text-sm text-gray-400 dark:text-gray-500">•</span>
+    <span class="text-sm text-gray-600 dark:text-gray-400">📖 約{readingTime}分</span>
   </div>
 
   <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white hover:text-primary transition-colors">
@@ -47,7 +51,7 @@ const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: j
   <div class="mt-4">
     <a
       href={`${base}/posts/${post.id}`}
-      class="inline-flex items-center text-primary hover:text-blue-700 font-medium transition-colors"
+      class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark font-medium transition-colors"
     >
       続きを読む →
     </a>
