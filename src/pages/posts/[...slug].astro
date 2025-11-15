@@ -11,13 +11,11 @@ export async function getStaticPaths() {
   const posts = await getCollection('posts');
   return posts.map(post => ({
     params: { slug: post.id },
+    props: { post },
   }));
 }
 
-const { slug } = Astro.params;
-
-// 記事を取得（IDはファイル名から生成される）
-const post = await getEntry('posts', slug as string);
+const { post } = Astro.props;
 
 if (!post) {
   return Astro.redirect('/404');

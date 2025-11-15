@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build && pagefind --source dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "new:tech": "bash scripts/new-post.sh",
+    "new:hobby": "bash scripts/new-post.sh"
   },
   "engines": {
     "node": ">=18.0.0"

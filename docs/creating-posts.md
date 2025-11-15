@@ -4,13 +4,22 @@
 
 ### 1. 記事ファイルを作成
 
-`src/content/posts/` ディレクトリに新しいMarkdownファイルを作成します。
+カテゴリに応じたディレクトリに新しいMarkdownファイルを作成します。
+
+**ディレクトリ構造**:
+```
+src/content/posts/
+├── tech/     # 技術記事
+└── hobby/    # 趣味記事
+```
 
 **ファイル名の規則**:
-- 推奨: `記事のスラッグ.md`
-- 例: `my-first-post.md`、`typescript-tutorial.md`
+- **推奨**: `YYYY-MM-DD-スラッグ.md`
+- **例**:
+  - `tech/2025-01-15-typescript-tutorial.md`
+  - `hobby/2025-02-01-my-weekend.md`
+- 日付でファイルがソートされるので管理が楽
 - 半角英数字とハイフンのみ使用
-- ファイル名がURLのスラッグになります
 
 ### 2. フロントマターを記入
 
