@@ -8,14 +8,20 @@ import Footer from '../../components/Footer.astro';
 import { CATEGORIES } from '../../constants/categories';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map(post => ({
+  const allPosts = await getCollection('posts', ({ data }) => data.published);
+  const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return sortedPosts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      prevPost: sortedPosts[index + 1] || null,
+      nextPost: sortedPosts[index - 1] || null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 
 if (!post) {
   return Astro.redirect('/404');
@@ -34,6 +40,17 @@ const { base } = import.meta.env;
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <Header slot="header" />
+
+  <!-- パンくずナビゲーション -->
+  <nav class="text-sm mb-6">
+    <ol class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+      <li><a href={`${base}/`} class="hover:text-primary">ホーム</a></li>
+      <li>›</li>
+      <li><a href={`${base}/category/${post.data.category}`} class="hover:text-primary">{CATEGORIES[post.data.category].name}</a></li>
+      <li>›</li>
+      <li class="text-gray-900 dark:text-white font-medium truncate">{post.data.title}</li>
+    </ol>
+  </nav>
 
   <article class="prose prose-lg dark:prose-invert max-w-none" data-pagefind-body>
     <!-- 記事メタ情報 -->
@@ -82,6 +99,34 @@ const { base } = import.meta.env;
       <Content />
     </div>
   </article>
+
+  <!-- 前の記事・次の記事 -->
+  <nav class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {prevPost && (
+        <a
+          href={`${base}/posts/${prevPost.id}`}
+          class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary hover:shadow-md transition-all group"
+        >
+          <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">← 前の記事</div>
+          <div class="font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+            {prevPost.data.title}
+          </div>
+        </a>
+      )}
+      {nextPost && (
+        <a
+          href={`${base}/posts/${nextPost.id}`}
+          class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary hover:shadow-md transition-all group md:text-right"
+        >
+          <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">次の記事 →</div>
+          <div class="font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+            {nextPost.data.title}
+          </div>
+        </a>
+      )}
+    </div>
+  </nav>
 
   <Footer slot="footer" />
 </BaseLayout>

@@ -25,12 +25,23 @@ const posts = (await getCollection('posts', ({ data }) => {
 })).sort((a, b) =>
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const { base } = import.meta.env;
 ---
 
 <BaseLayout title={`${category.name} - My Blog`}>
   <Header slot="header" />
 
   <div class="space-y-8">
+    <!-- パンくずナビゲーション -->
+    <nav class="text-sm mb-4">
+      <ol class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+        <li><a href={`${base}/`} class="hover:text-primary">ホーム</a></li>
+        <li>›</li>
+        <li class="text-gray-900 dark:text-white font-medium">{category.name}</li>
+      </ol>
+    </nav>
+
     <div class="mb-12">
       <div class="flex items-center gap-3 mb-4">
         <span class="text-5xl">{category.icon}</span>
@@ -39,7 +50,7 @@ const posts = (await getCollection('posts', ({ data }) => {
         </h1>
       </div>
       <p class="text-lg text-gray-600 dark:text-gray-400">
-        {category.description}
+        {category.description}（{posts.length}件の記事）
       </p>
     </div>
 
