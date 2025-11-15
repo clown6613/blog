@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__list_dir",
+      "mcp__serena__list_memories",
+      "Bash(git fetch:*)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
+      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "WebSearch",
+      "Bash(.specify/scripts/bash/update-agent-context.sh:*)",
+      "Bash(cat:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(pnpm create:*)",
+      "Bash(pnpm astro add:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm astro build:*)",
+      "Bash(pnpm dev:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

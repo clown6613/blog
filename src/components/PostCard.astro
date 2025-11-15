@@ -1,0 +1,55 @@
+---
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
+import { CATEGORIES } from '../constants/categories';
+import type { BlogPost } from '../types';
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const { base } = import.meta.env;
+const category = CATEGORIES[post.data.category];
+const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: ja });
+---
+
+<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200 dark:border-gray-700">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="text-2xl">{category.icon}</span>
+    <span class="text-sm text-gray-600 dark:text-gray-400">{category.name}</span>
+    <span class="text-sm text-gray-400 dark:text-gray-500">•</span>
+    <time class="text-sm text-gray-600 dark:text-gray-400">{formattedDate}</time>
+  </div>
+
+  <h2 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white hover:text-primary transition-colors">
+    <a href={`${base}/posts/${post.id}`}>
+      {post.data.title}
+    </a>
+  </h2>
+
+  {post.data.description && (
+    <p class="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
+      {post.data.description}
+    </p>
+  )}
+
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="flex flex-wrap gap-2 mt-4">
+      {post.data.tags.map(tag => (
+        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">
+          #{tag}
+        </span>
+      ))}
+    </div>
+  )}
+
+  <div class="mt-4">
+    <a
+      href={`${base}/posts/${post.id}`}
+      class="inline-flex items-center text-primary hover:text-blue-700 font-medium transition-colors"
+    >
+      続きを読む →
+    </a>
+  </div>
+</article>

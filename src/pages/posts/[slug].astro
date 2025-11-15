@@ -1,0 +1,132 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import { format } from 'date-fns';
+import { ja } from 'date-fns/locale';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { CATEGORIES } from '../../constants/categories';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.id },
+  }));
+}
+
+const { slug } = Astro.params;
+
+// 記事を取得（IDはファイル名から生成される）
+const post = await getEntry('posts', slug as string);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// 非公開記事は404にリダイレクト
+if (!post.data.published) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await post.render();
+const category = CATEGORIES[post.data.category];
+const formattedDate = format(post.data.pubDate, 'yyyy年MM月dd日', { locale: ja });
+const { base } = import.meta.env;
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <Header slot="header" />
+
+  <article class="prose prose-lg dark:prose-invert max-w-none" data-pagefind-body>
+    <!-- 記事メタ情報 -->
+    <div class="not-prose mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <a
+          href={`${base}/category/${post.data.category}`}
+          class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <span class="text-xl">{category.icon}</span>
+          <span class="font-medium text-gray-900 dark:text-white">{category.name}</span>
+        </a>
+        <time class="text-gray-600 dark:text-gray-400" data-pagefind-meta="date">
+          {formattedDate}
+        </time>
+      </div>
+
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4" data-pagefind-meta="title">
+        {post.data.title}
+      </h1>
+
+      {post.data.description && (
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          {post.data.description}
+        </p>
+      )}
+
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-6" data-pagefind-meta="tags">
+          {post.data.tags.map(tag => (
+            <a
+              href={`${base}/tags/${encodeURIComponent(tag)}`}
+              class="px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 text-sm rounded-full transition-colors"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <hr class="my-8 border-gray-200 dark:border-gray-700" />
+
+    <!-- 記事本文 -->
+    <div class="markdown-content">
+      <Content />
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style is:global>
+  /* Markdownコンテンツのスタイリング */
+  .prose {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply text-gray-900 dark:text-white font-bold;
+  }
+
+  .prose a {
+    @apply text-primary hover:underline;
+  }
+
+  .prose code {
+    @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+  }
+
+  .prose pre {
+    @apply bg-gray-900 dark:bg-black rounded-lg p-4 overflow-x-auto;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose ul, .prose ol {
+    @apply ml-6;
+  }
+
+  .prose li {
+    @apply my-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-700 dark:text-gray-400;
+  }
+
+  .prose img {
+    @apply rounded-lg shadow-md;
+  }
+</style>

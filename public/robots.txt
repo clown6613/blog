@@ -1,0 +1,4 @@
+Sitemap: https://s23410.github.io/blog/sitemap.xml
+
+User-agent: *
+Allow: /
