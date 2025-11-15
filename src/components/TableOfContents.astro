@@ -10,17 +10,17 @@ const tocHeadings = headings.filter(h => h.depth <= 3);
 ---
 
 {tocHeadings.length > 0 && (
-  <nav class="toc sticky top-4 bg-white dark:bg-slate-800 rounded-lg border-2 border-primary/30 dark:border-primary-light/30 p-6 mb-8 shadow-md">
-    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+  <nav class="toc lg:sticky lg:top-4 bg-white dark:bg-slate-800 rounded-lg border-2 border-primary/30 dark:border-primary-light/30 p-4 md:p-6 mb-6 md:mb-8 shadow-md">
+    <h2 class="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-3 md:mb-4 flex items-center gap-2">
       <span>📑</span>
       <span>目次</span>
     </h2>
-    <ul class="space-y-2">
+    <ul class="space-y-1.5 md:space-y-2">
       {tocHeadings.map(heading => (
-        <li class={heading.depth === 3 ? 'ml-4' : ''}>
+        <li class={heading.depth === 3 ? 'ml-3 md:ml-4' : ''}>
           <a
             href={`#${heading.slug}`}
-            class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors text-sm block py-1"
+            class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors text-xs md:text-sm block py-0.5 md:py-1"
           >
             {heading.text}
           </a>

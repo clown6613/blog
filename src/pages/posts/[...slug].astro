@@ -65,12 +65,12 @@ const base = import.meta.env.BASE_URL;
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
     <!-- 目次 -->
-    <aside class="lg:col-span-1 order-2 lg:order-1">
+    <aside class="lg:col-span-1 order-1">
       <TableOfContents headings={headings} />
     </aside>
 
     <!-- 記事本文 -->
-    <article class="lg:col-span-3 order-1 lg:order-2 prose prose-lg dark:prose-invert max-w-none" data-pagefind-body>
+    <article class="lg:col-span-3 order-2 prose prose-sm md:prose-lg dark:prose-invert max-w-none" data-pagefind-body>
     <!-- 記事メタ情報 -->
     <div class="not-prose mb-8">
       <div class="flex items-center gap-3 mb-4">
